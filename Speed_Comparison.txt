@@ -1,0 +1,17 @@
+Speed Comparison
+	- Windows 8.1 Professional 64bit
+	- Intel Core i7-4600U (only using single core)
+	- Time for calculating 10000 steps was measured
+
+Language	Time[s]	Env	Option
+C	22	gcc 5.3.0 (Cygwin64)	-O0
+C	3	gcc 5.3.0 (Cygwin64)	-O3
+F90	8	gcc 5.3.0 (Cygwin64)	-O0
+F90	3	gcc 5.3.0 (Cygwin64)	-O3
+Julia	411	1.0.0	-O0
+Julia	88	1.0.0	-O3
+MATLAB	40	R2016b	-
+Perl	1650	v5.24.3 -
+Processing	15	Processing 3.1.2	frameRate(1000);
+Python	39	3.7.0	-
+Scilab	51	5.5.2	-
