@@ -45,7 +45,7 @@ function FDTD()
         P[NX÷4+1,NY÷3+1] = sig
 
         # 波形ファイル出力（時刻, 音源, 中央点の音圧）
-        write(waveformfile,"$(dt*n)\t$sig\t$(P[Int32(floor(NX/2+1)),Int32(floor(NY/2+1))])\n")
+        write(waveformfile,"$(dt*n)\t$sig\t$(P[NX÷2+1,NY÷2+1])\n")
         @printf("%5d / %5d\r", n, Nstep);
 
         # 音圧分布ファイル出力（50ステップ毎）
