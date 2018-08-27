@@ -13,5 +13,5 @@ Julia	88	1.0.0	-O3
 MATLAB	40	R2016b	-
 Perl	1650	v5.24.3 -
 Processing	15	Processing 3.1.2	frameRate(1000);
-Python	39	3.7.0	-
+Python(SciPy)	39	3.7.0	-
 Scilab	51	5.5.2	-
