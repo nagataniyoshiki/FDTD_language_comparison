@@ -11,6 +11,7 @@ F90	8	gcc 5.3.0 (Cygwin64)	-O0
 F90	3	gcc 5.3.0 (Cygwin64)	-O3
 Julia(faster)	61	1.0.0	-O0
 Julia(faster)	8	1.0.0	-O3
+Julia(faster)	3	1.0.0	-O3 --check-bound=no
 Julia(slowest)	411	1.0.0	-O0
 Julia(slowest)	88	1.0.0	-O3
 MATLAB	40	R2016b	-
