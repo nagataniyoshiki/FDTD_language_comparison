@@ -1,0 +1,22 @@
+Speed Comparison
+	- Ubuntu 16.04 LTS 64bit
+	- Intel Xeon E5-1650 v4 3.60GHz x 12
+	- PC4-19200 DDR4 (64GB @ Quad Channel)
+	- Time for calculating 100000 steps was measured
+	- Compiler:
+		- C: gcc 5.4.0 (-O3 -fopenmp)
+		- Julia: 1.0.0 (64bit) (-O3 --check-bound=no)
+
+Number of Threads	Time of C[s]	Time of Julia[s]
+1	20.28	21.20
+2	10.76	11.03
+3	7.43	7.65
+4	5.70	5.92
+5	4.76	4.92
+6	4.06	4.27
+7	6.13	6.52
+8	5.52	6.05
+9	5.36	5.25
+10	4.78	5.01
+11	4.62	4.52
+12	4.49	4.62
