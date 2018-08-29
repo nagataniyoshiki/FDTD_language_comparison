@@ -1,4 +1,5 @@
 # 二次元音響FDTD速度比較 by Yoshiki NAGATANI 20141109 (https://ultrasonics.jp/nagatani/fdtd/)
+#  disabled file output for testing speed 20180829
 
 import sys
 from scipy import *
@@ -9,7 +10,7 @@ NY = 400								# 空間セル数 Y [pixels]
 dx = 0.01								# 空間刻み [m]
 dt = 20.0e-6							# 時間刻み [s]
 
-Nstep = 1000							# 計算ステップ数 [回]
+Nstep = 10000							# 計算ステップ数 [回]
 
 freq = 1.0e3							# 初期波形の周波数 [Hz]
 
@@ -22,7 +23,7 @@ P  = zeros((NX,  NY  ), "float64")		# 音圧 [Pa]
 
 
 # 事前準備 #########################################################
-waveformfile = open('waveform.txt', 'w')
+#waveformfile = open('waveform.txt', 'w')
 
 # メインループ #########################################################
 for n in range(Nstep+1):
@@ -45,18 +46,19 @@ for n in range(Nstep+1):
 	P[int(NX/4),int(NY/3)] = sig
 
 	# 波形ファイル出力（時刻, 音源, 中央点の音圧）
-	waveformfile.write('%e\t%e\t%e\n' % (dt*n, sig, P[int(NX/2),int(NY/2)]))
-	sys.stderr.write('%5d / %5d\r' % (n, Nstep) )
+#	waveformfile.write('%e\t%e\t%e\n' % (dt*n, sig, P[int(NX/2),int(NY/2)]))
 
 	# 音圧分布ファイル出力（50ステップ毎）
 	if n % 50 == 0:
-		fieldfilename = 'field%.6d.txt' % (n)
-		fieldfile = open(fieldfilename,'w')
-		for i in range(NX):
-			for j in  range(NY):
-				fieldfile.write('%e\t' % (P[i,j]))
-			fieldfile.write('\n');
-		fieldfile.close
+		sys.stderr.write('%5d / %5d\r' % (n, Nstep) )
+#		音場ファイルを出力する場合は以下のコメントを外して下さい
+#		fieldfilename = 'field%.6d.txt' % (n)
+#		fieldfile = open(fieldfilename,'w')
+#		for i in range(NX):
+#			for j in  range(NY):
+#				fieldfile.write('%e\t' % (P[i,j]))
+#			fieldfile.write('\n');
+#		fieldfile.close
 
 # 事後処理 #########################################################
-waveformfile.close
+#waveformfile.close

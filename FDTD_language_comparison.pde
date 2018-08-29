@@ -1,4 +1,5 @@
 /* 二次元音響FDTD速度比較 by Yoshiki NAGATANI 20141109 (https://ultrasonics.jp/nagatani/fdtd/) */
+/*  disabled file output for testing speed 20180829 */
 
 int NX = 300;							/* 空間セル数 X [pixels] */
 int NY = 400;							/* 空間セル数 Y [pixels] */
@@ -6,7 +7,7 @@ int NY = 400;							/* 空間セル数 Y [pixels] */
 double dx = 0.01;						/* 空間刻み [m] */
 double dt = 20.0e-6;					/* 時間刻み [s] */
 
-int Nstep = 1000;						/* 計算ステップ数 [回] */
+int Nstep = 10000;						/* 計算ステップ数 [回] */
 
 double freq = 1.0e3;					/* 初期波形の周波数 [Hz] */
 
@@ -31,7 +32,7 @@ void setup()
 {
 	size(400,300);
 	frameRate(1000);
-	waveformfile = createWriter("waveform.txt");
+/*	waveformfile = createWriter("waveform.txt");*/
 
 	/* 粒子速度分布・音圧分布を初期化 *********************************************************/
 	for(int i=0;i<NX+1;i++){
@@ -74,13 +75,14 @@ void draw()
 		P[int(NX/4)][int(NY/3)] = sig;
 
 		/* 波形ファイル出力（時刻, 音源, 中央点の音圧） */
-		println(n);
-		waveformfile.println(String.format("%e",n*dt)+"\t"+String.format("%e",sig)+"\t"+String.format("%e",P[int(NX/2)][int(NY/2)]));
-		waveformfile.flush();
+/*		waveformfile.println(String.format("%e",n*dt)+"\t"+String.format("%e",sig)+"\t"+String.format("%e",P[int(NX/2)][int(NY/2)]));
+		waveformfile.flush();*/
 
 		/* 音圧分布ファイル出力（50ステップ毎） */
 		if( n % 50 == 0 ){
-			fieldfilename = "field"+String.format("%06d",n)+".txt";
+			println(n);
+/*			音場ファイルを出力する場合は以下のコメントを外して下さい */
+/*			fieldfilename = "field"+String.format("%06d",n)+".txt";
 			fieldfile = createWriter(fieldfilename);
 			for(int i=0; i<NX; i++){
 				for(int j=0; j<NY; j++){
@@ -93,7 +95,7 @@ void draw()
 			}
 			image(img, 0, 0);
 			fieldfile.flush();
-			fieldfile.close();
+			fieldfile.close();*/
 		}
 
 		n++;
@@ -101,7 +103,7 @@ void draw()
 
 	/* 事後処理 *********************************************************/
 	else{
-		waveformfile.close();
+/*		waveformfile.close();*/
 		exit();
 	}
 }

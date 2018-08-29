@@ -1,4 +1,5 @@
 /* 二次元音響FDTD速度比較 by Yoshiki NAGATANI 20141109 (https://ultrasonics.jp/nagatani/fdtd/) */
+/*  disabled file output for testing speed 20180829 */
 
 #include <stdio.h>
 #include <math.h>
@@ -9,7 +10,7 @@
 #define dx 0.01				/* 空間刻み [m] */
 #define dt 20.0e-6			/* 時間刻み [s] */
 
-#define Nstep 1000			/* 計算ステップ数 [回] */
+#define Nstep 10000			/* 計算ステップ数 [回] */
 
 #define freq 1.0e3			/* 初期波形の周波数 [Hz] */
 
@@ -34,10 +35,10 @@ int main(void)
 	char fieldfilename[30];
 
 	/* 事前準備 *********************************************************/
-	if((waveformfile = fopen("waveform.txt","w"))==NULL){
+/*	if((waveformfile = fopen("waveform.txt","w"))==NULL){
 		printf("open error [waveform.txt]\n");
 		return(1);
-	}
+	}*/
 
 	/* 粒子速度分布・音圧分布を初期化 *********************************************************/
 	for(i=0;i<NX+1;i++){
@@ -75,12 +76,13 @@ int main(void)
 		P[(int)(NX/4)][(int)(NY/3)] = sig;
 
 		/* 波形ファイル出力（時刻, 音源, 中央点の音圧） */
-		fprintf(waveformfile,"%e\t%e\t%e\n", dt*n, sig, P[(int)(NX/2)][(int)(NY/2)]);
-		fprintf(stderr,"%5d / %5d\r", n, Nstep );
+/*		fprintf(waveformfile,"%e\t%e\t%e\n", dt*n, sig, P[(int)(NX/2)][(int)(NY/2)]);*/
 
 		/* 音圧分布ファイル出力（50ステップ毎） */
 		if( n % 50 == 0 ){
-			sprintf(fieldfilename, "field%.6d.txt",n);
+			fprintf(stderr,"%5d / %5d\r", n, Nstep );
+/*			音場ファイルを出力する場合は以下のコメントを外して下さい */
+/*			sprintf(fieldfilename, "field%.6d.txt",n);
 			if((fieldfile = fopen(fieldfilename,"w"))==NULL){
 				printf("open error [field.txt]\n");
 				return(1);
@@ -91,13 +93,13 @@ int main(void)
 				}
 				fprintf(fieldfile, "\n");
 			}
-			fclose(fieldfile);
+			fclose(fieldfile);*/
 		}
 
 	}
 
 	/* 事後処理 *********************************************************/
-	fclose(waveformfile);
+/*	fclose(waveformfile);*/
 
 	return(0);
 }

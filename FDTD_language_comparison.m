@@ -1,4 +1,5 @@
 % 二次元音響FDTD速度比較 by Yoshiki NAGATANI 20141109 (https://ultrasonics.jp/nagatani/fdtd/)
+%  disabled file output for testing speed 20180829
 
 NX = 300;						% 空間セル数 X [pixels]
 NY = 400;						% 空間セル数 Y [pixels]
@@ -6,7 +7,7 @@ NY = 400;						% 空間セル数 Y [pixels]
 dx = 0.01;						% 空間刻み [m]
 dt = 20.0e-6;					% 時間刻み [s]
 
-Nstep = 1000;					% 計算ステップ数 [回]
+Nstep = 10000;					% 計算ステップ数 [回]
 
 freq = 1.0e3;					% 初期波形の周波数 [Hz]
 
@@ -19,7 +20,7 @@ P  = zeros(NX,  NY  );			% 音圧 [Pa]
 
 
 % 事前準備 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-waveformfile = fopen('waveform.txt','w');
+% waveformfile = fopen('waveform.txt','w');
 
 % メインループ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for n = 0:Nstep,
@@ -42,22 +43,23 @@ for n = 0:Nstep,
 	P(floor(NX/4+1),floor(NY/3+1)) = sig;
 
 	% 波形ファイル出力（時刻, 音源, 中央点の音圧）
-	fprintf(waveformfile,'%e\t%e\t%e\n', dt*n, sig, P(floor(NX/2+1),floor(NY/2+1)));
-	fprintf('%5d / %5d\r', n, Nstep);
+%	fprintf(waveformfile,'%e\t%e\t%e\n', dt*n, sig, P(floor(NX/2+1),floor(NY/2+1)));
 
 	% 音圧分布ファイル出力（50ステップ毎）
 	if rem(n, 50) == 0
-		fieldfilename = sprintf('field%.6d.txt',n);
-		fieldfile = fopen(fieldfilename,'w');
-		for i = 1:NX
-			for j = 1:NY
-				fprintf(fieldfile,'%e\t',P(i,j));
-			end
-			fprintf(fieldfile,'\n');
-		end
-		fclose(fieldfile);
+		fprintf('%5d / %5d\r', n, Nstep);
+%		音場ファイルを出力する場合は以下のコメントを外して下さい
+%		fieldfilename = sprintf('field%.6d.txt',n);
+%		fieldfile = fopen(fieldfilename,'w');
+%		for i = 1:NX
+%			for j = 1:NY
+%				fprintf(fieldfile,'%e\t',P(i,j));
+%			end
+%			fprintf(fieldfile,'\n');
+%		end
+%		fclose(fieldfile);
 	end
 end
 
 % 事後処理 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-fclose(waveformfile);
+% fclose(waveformfile);

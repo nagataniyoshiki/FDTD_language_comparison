@@ -1,6 +1,7 @@
 ! 二次元音響FDTD速度比較 by Yoshiki NAGATANI 20141109 (https://ultrasonics.jp/nagatani/fdtd/)
+!  disabled file output for testing speed 20180829
 
-program FDTD_language_comparison
+program FDTD
 
 	integer :: NX = 300										! 空間セル数 X [pixels]
 	integer :: NY = 400										! 空間セル数 Y [pixels]
@@ -8,7 +9,7 @@ program FDTD_language_comparison
 	double precision :: dx = 0.01							! 空間刻み [m]
 	double precision :: dt = 20.0e-6						! 時間刻み [s]
 
-	integer :: Nstep = 1000									! 計算ステップ数 [回]
+	integer :: Nstep = 10000								! 計算ステップ数 [回]
 
 	double precision :: freq = 1.0e3						! 初期波形の周波数 [Hz]
 
@@ -32,7 +33,7 @@ program FDTD_language_comparison
 	allocate( P(NX,NY) )
 	P(:,:)  = 0.0
 
-	open(10, file='waveform.txt', status='replace')
+!	open(10, file='waveform.txt', status='replace')
 
 
 	! メインループ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -56,25 +57,26 @@ program FDTD_language_comparison
 		P(NX/4+1,NY/3+1) = sig;
 
 		! 波形ファイル出力（時刻, 音源, 中央点の音圧）
-		write (10, "(E17.7,' ', E17.7, ' ', E17.7)"), dt*n, sig, P(NX/2+1,NY/2+1)
-		write (*, "(I5,' / ', I5)"), n, Nstep
+!		write (10, "(E17.7,' ', E17.7, ' ', E17.7)"), dt*n, sig, P(NX/2+1,NY/2+1)
 
 		! 音圧分布ファイル出力（50ステップ毎）
 		if (mod(n, 50) == 0) then
-			write (fieldfilename, '("field", I6.6, ".txt")') n
-			open(20, file=fieldfilename, status='replace')
-			do i = 1, NX
-				do j = 1, NY
-					write (20, "(E17.7, '')", advance='no'), P(i,j)
-				end do
-				write (20, "()")
-			end do
-			close(20)
+			write (*, "(I5,' / ', I5)"), n, Nstep
+!			音場ファイルを出力する場合は以下のコメントを外して下さい
+!			write (fieldfilename, '("field", I6.6, ".txt")') n
+!			open(20, file=fieldfilename, status='replace')
+!			do i = 1, NX
+!				do j = 1, NY
+!					write (20, "(E17.7, '')", advance='no'), P(i,j)
+!				end do
+!				write (20, "()")
+!			end do
+!			close(20)
 		end if
 
 	end do
 
 	! 事後処理 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	close(10)
+!	close(10)
 
-end program FDTD_language_comparison
+end program FDTD
